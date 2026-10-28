@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AlarmShell</string>
+    <string name="hud_control">[ %1$s ]</string>
+    <string name="hud_clock">%1$s // %2$s // NODE ASH-01</string>
+    <string name="input_show">[ SHOW ]</string>
+    <string name="input_hide">[ HIDE ]</string>
+    <string name="widget_name">AlarmShell · panel</string>
+</resources>

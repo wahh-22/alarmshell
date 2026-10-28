@@ -9,3 +9,5 @@ local.properties
 .idea/
 .DS_Store
 odd/
+__pycache__/
+*.pyc

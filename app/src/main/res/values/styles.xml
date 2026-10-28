@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.AlarmShell" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:colorAccent">#2196F3</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#0A1018</item>
+        <item name="android:navigationBarColor">#0A1018</item>
+        <item name="android:windowBackground">#0A1018</item>
+        <item name="android:colorControlNormal">#DDE7F0</item>
+    </style>
+</resources>
