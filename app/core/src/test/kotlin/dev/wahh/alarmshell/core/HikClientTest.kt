@@ -84,7 +84,7 @@ class HikClientTest {
     @Test
     fun `stay sends the panel action with armType and the authorization header`() {
         val transport = FakeTransport(HttpResponse.text(200, """{"meta":{"code":200},"data":{}}"""))
-        HikClient(transport).setDefenceMode(session(), "Q37069416", DefenceMode.STAY, enUser = "admin")
+        HikClient(transport).setDefenceMode(session(), "ABC123", DefenceMode.STAY, enUser = "admin")
         val request = transport.requests.single()
         assertEquals("PUT", request.method)
         assertTrue(request.url.endsWith("/AlarmSubSystemMgr/CtrlSubSystemArmList"))
@@ -95,7 +95,7 @@ class HikClientTest {
     @Test
     fun `disarm uses the dedicated action without armType`() {
         val transport = FakeTransport(HttpResponse.text(200, """{"meta":{"code":200},"data":{}}"""))
-        HikClient(transport).setDefenceMode(session(), "Q37069416", DefenceMode.DISARM, enUser = "admin")
+        HikClient(transport).setDefenceMode(session(), "ABC123", DefenceMode.DISARM, enUser = "admin")
         val request = transport.requests.single()
         assertTrue(request.url.endsWith("/AlarmSubSystemMgr/CtrlSubSystemDisarmList"))
         assertEquals("""{"operationMode":"all"}""", request.json)
@@ -110,7 +110,7 @@ class HikClientTest {
                 HttpResponse.text(200, armBody),
                 HttpResponse.text(200, """{"meta":{"code":200},"data":{}}"""),
             )
-        HikClient(transport).setDefenceMode(session(), "Q37069416", DefenceMode.STAY, enUser = "admin")
+        HikClient(transport).setDefenceMode(session(), "ABC123", DefenceMode.STAY, enUser = "admin")
         assertEquals(2, transport.requests.size)
         val confirm = transport.requests[1]
         assertTrue(confirm.url.endsWith("/SetSubSystemFaultArmConfirm"))
@@ -125,10 +125,10 @@ class HikClientTest {
                 HttpResponse.text(200, """{"meta":{"code":200},"data":[{"subSystemID":1,"armStatus":"disarmed"}]}"""),
             )
         val client = HikClient(transport, now = { exp })
-        val armed = client.readArmState(session(), "Q37069416", enUser = "admin")
+        val armed = client.readArmState(session(), "ABC123", enUser = "admin")
         assertEquals("armed", armed.raw)
         assertEquals(Arming.UNKNOWN, armed.arming)
-        assertEquals(Arming.DISARMED, client.readArmState(session(), "Q37069416", enUser = "admin").arming)
+        assertEquals(Arming.DISARMED, client.readArmState(session(), "ABC123", enUser = "admin").arming)
     }
 
     @Test

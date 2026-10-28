@@ -99,6 +99,21 @@ class DiagnosticsActivity : Activity() {
         command.addView(button("AWAY", enabled = busy == null && ready) { sendMode(current, serial, DefenceMode.AWAY) })
         command.addView(button("DISARM", enabled = busy == null && ready) { sendMode(current, serial, DefenceMode.DISARM) })
         command.addView(button("READ ARM STATUS", enabled = busy == null) { readArmStatus(current, serial) })
+        val serialField = SecureField(this, "Panel serial", "Q37069416", maxLength = 32).apply { edit.setText(serial) }
+        command.addView(serialField)
+        command.addView(
+            button("SAVE SERIAL") {
+                val value = serialField.edit.text.toString().trim().uppercase(Locale.ROOT)
+                if (value.isEmpty()) {
+                    error = "Panel serial cannot be empty."
+                } else {
+                    services.armState.serial = value
+                    error = "Panel serial set to $value."
+                }
+                ArmWidget.updateAll(this)
+                render()
+            },
+        )
         val enUser = services.armState.enUser
         command.addView(text("AUTHORIZATION USER // $enUser", 12f))
         val enField = SecureField(this, "Panel account", "panel account name", maxLength = 64).apply { edit.setText(enUser) }
