@@ -16,12 +16,6 @@ class HikSessionTest {
     private val token = "${b64("""{"alg":"HS256"}""")}.${b64("""{"exp":1900000000}""")}.signature"
 
     @Test
-    fun `encode and decode round-trip every field`() {
-        val session = HikSession("api.eu.hik-connect.com", token, "refresh", "deadbeef", 1_900_000_000L)
-        assertEquals(session, HikSession.decode(session.encode()))
-    }
-
-    @Test
     fun `host validation blocks scheme paths ports and userinfo`() {
         listOf(
             "api.hik-connect.com/evil",
@@ -44,14 +38,6 @@ class HikSessionTest {
         assertTrue(session.needsRefresh(1_900_000_000L - 3600))
         assertTrue(session.needsRefresh(1_900_000_000L))
         assertEquals(1_900_000_000L, HikSession.jwtExpirySeconds(token))
-    }
-
-    @Test
-    fun `decode rejects unknown versions and oversized records`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            HikSession.decode("""{"v":2,"domain":"api.hik-connect.com","session":"s","refresh":"r","feature":"deadbeef","exp":1}""")
-        }
-        assertThrows(IllegalArgumentException::class.java) { HikSession.decode("x".repeat(32769)) }
     }
 
     @Test

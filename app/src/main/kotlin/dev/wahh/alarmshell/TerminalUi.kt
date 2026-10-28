@@ -76,6 +76,7 @@ internal fun Activity.panel(
 }
 
 /** Terminal frame plus the status gutter, matching the QuotaShell shell the user already runs. */
+@Suppress("DEPRECATION") // systemWindowInset* is the only inset API available without AndroidX.
 internal fun Activity.terminalContent(view: View) {
     if (view is ScrollView) {
         view.setPadding(dp(16), dp(16), dp(16), dp(16))

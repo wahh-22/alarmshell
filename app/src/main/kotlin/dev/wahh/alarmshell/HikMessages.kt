@@ -18,7 +18,6 @@ internal fun describeHikFailure(error: Throwable): String {
             HikFailure.MALFORMED_RESPONSE -> "Unexpected cloud response. The API may have changed."
             HikFailure.HTTP_ERROR -> "Cloud refused the request."
             HikFailure.NETWORK_ERROR -> "Cloud unreachable. Check the connection and retry."
-            HikFailure.STORAGE_ERROR -> "Secure storage could not be updated."
             null -> "Unexpected error (${error.javaClass.simpleName})."
         }
     val detail = (error as? HikException)?.detail

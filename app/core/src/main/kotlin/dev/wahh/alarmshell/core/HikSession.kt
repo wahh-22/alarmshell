@@ -30,30 +30,6 @@ data class HikSession(
         marginSeconds: Long = REFRESH_MARGIN_SECONDS,
     ): Boolean = nowEpochSeconds >= expiresAtEpochSeconds - marginSeconds
 
-    fun withRefreshed(
-        apiDomain: String,
-        sessionId: String,
-        refreshSessionId: String,
-        expiresAtEpochSeconds: Long,
-    ): HikSession = copy(
-        apiDomain = apiDomain,
-        sessionId = sessionId,
-        refreshSessionId = refreshSessionId,
-        expiresAtEpochSeconds = expiresAtEpochSeconds,
-    )
-
-    fun encode(): String =
-        jsonEncode(
-            linkedMapOf(
-                "v" to 1,
-                "domain" to apiDomain,
-                "session" to sessionId,
-                "refresh" to refreshSessionId,
-                "feature" to featureCode,
-                "exp" to expiresAtEpochSeconds,
-            ),
-        )
-
     companion object {
         const val DEFAULT_API_DOMAIN = "api.hik-connect.com"
         const val DEFAULT_FEATURE_CODE = "875f40599b2f32d1ed37ce7441cdb2d2"
@@ -75,17 +51,5 @@ data class HikSession(
             return exp
         }
 
-        fun decode(encoded: String): HikSession {
-            require(encoded.length <= 32768) { "session record too large" }
-            val fields = JsonParser.parse(encoded)
-            require((fields["v"] as? Number)?.toInt() == 1) { "unsupported session version" }
-            return HikSession(
-                apiDomain = fields["domain"] as? String ?: error("missing domain"),
-                sessionId = fields["session"] as? String ?: error("missing session"),
-                refreshSessionId = fields["refresh"] as? String ?: error("missing refresh"),
-                featureCode = fields["feature"] as? String ?: error("missing feature"),
-                expiresAtEpochSeconds = (fields["exp"] as? Number)?.toLong() ?: error("missing exp"),
-            )
-        }
     }
 }

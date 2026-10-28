@@ -193,7 +193,6 @@ enum class HikFailure {
     MALFORMED_RESPONSE,
     HTTP_ERROR,
     NETWORK_ERROR,
-    STORAGE_ERROR,
 }
 
 /**

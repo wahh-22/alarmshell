@@ -20,6 +20,7 @@ import java.util.WeakHashMap
  * Phase 1 keeps the frame, surface chamfers and typography; the periodic glitch layer is deferred
  * until there is a panel state worth animating.
  */
+@Suppress("DEPRECATION") // scaledDensity is stable for the HUD math this shell needs.
 internal fun Activity.installPhantomShell(root: ViewGroup) {
     val theme = (application as AlarmApplication).theme
     val sizes = WeakHashMap<TextView, Float>()
